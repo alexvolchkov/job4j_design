@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
+import ru.job4j.list.List;
 
 public class SimpleArrayListTest {
 
