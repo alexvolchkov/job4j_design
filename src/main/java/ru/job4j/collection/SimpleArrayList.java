@@ -28,6 +28,9 @@ public class SimpleArrayList<T> implements List<T> {
 
             @Override
             public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return point < size();
             }
 
@@ -36,37 +39,34 @@ public class SimpleArrayList<T> implements List<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
-                return get(point++);
+                return container[point++];
             }
-
         };
     }
 
     @Override
     public void add(T t) {
         modCount++;
-        checkSize();
-        int oldSize = size;
+        grow();
         container[size++] = t;
     }
 
-    private T[] grow() {
-        return Arrays.copyOf(container, container.length * 2);
+    private void grow() {
+        if (size == container.length) {
+            int newLength = container.length == 0 ? 10 : container.length * 2;
+            container = Arrays.copyOf(container, newLength);
+        }
     }
 
     @Override
     public T get(int index) {
-        checkIndex(index, size);
+        Objects.checkIndex(index, size);
         return container[index];
     }
 
     @Override
     public T set(int index, T element) {
-        checkIndex(index, size);
-        checkSize();
+        Objects.checkIndex(index, size);
         T rsl = container[index];
         container[index] = element;
         return rsl;
@@ -75,21 +75,11 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public T remove(int index) {
         modCount++;
-        checkIndex(index, size);
+        Objects.checkIndex(index, size);
         T rsl = container[index];
         System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         container[container.length - 1] = null;
         size--;
         return rsl;
-    }
-
-    private int checkIndex(int index, int length) {
-        return Objects.checkIndex(index, length);
-    }
-
-    private void checkSize() {
-        if (size == container.length) {
-            container = grow();
-        }
     }
 }
