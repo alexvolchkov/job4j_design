@@ -7,17 +7,12 @@ import java.util.stream.Collectors;
 public class ListUtils {
     public static <T> void addBefore(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-       add(list, index, value);
+        list.listIterator(index).add(value);
     }
 
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-        add(list, index + 1, value);
-    }
-
-    private static <T> void add(List<T> list, int index, T value) {
-        ListIterator<T> iterator = list.listIterator(index);
-        iterator.add(value);
+        list.listIterator(index + 1).add(value);
     }
 
     public static <T> void removeIf(List<T> list, Predicate<T> filter) {
