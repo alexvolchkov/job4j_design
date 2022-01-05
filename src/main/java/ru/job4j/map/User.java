@@ -31,7 +31,7 @@ public class User {
         User user1 = new User("Alex", 2, new GregorianCalendar(1980, Calendar.AUGUST, 1));
         User user2 = new User("Alex", 2, new GregorianCalendar(1980, Calendar.AUGUST, 1));
         Map<User, Object> map = new HashMap<>();
-        map.put(user1, new Object().hashCode());
+        map.put(user1, new Object());
         map.put(user2, new Object());
         for (User user : map.keySet()) {
             System.out.println(user + ": " + map.get(user));
