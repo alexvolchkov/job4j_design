@@ -23,7 +23,6 @@ public class SimpleMapTest {
         Map<Integer, String> map = new SimpleMap<>();
         assertTrue(map.put(null, "null"));
         assertTrue(map.put(1, "one"));
-        assertTrue(map.put(null, "null"));
         assertFalse(map.put(8, "eight"));
     }
 

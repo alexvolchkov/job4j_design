@@ -14,6 +14,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        if (1.0 * count / capacity >= LOAD_FACTOR) {
+            expand();
+        }
         boolean rsl = false;
         int hashCode = key == null ? 0 : key.hashCode();
         int hash =  hash(hashCode);
@@ -23,12 +26,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
             count++;
             modCount++;
             rsl = true;
-        } else if (isEqualsKey(index, hash, key)) {
-            table[index].value = value;
-            rsl = true;
-        }
-        if ((float) count / capacity >= LOAD_FACTOR) {
-            expand();
         }
         return rsl;
     }
