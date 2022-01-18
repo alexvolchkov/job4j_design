@@ -25,10 +25,11 @@ public class Config {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             String line = read.readLine();
             while (line != null) {
+                line = line.trim();
                 if (!line.isEmpty() && !line.startsWith("#")) {
                     int index = line.indexOf("=");
                     int lastIndex = line.lastIndexOf("=");
-                    if (index != lastIndex || index <= 0) {
+                    if (index != lastIndex || index <= 0 || index == line.length() - 1) {
                         throw new IllegalArgumentException();
                     }
                     String key = values.put(line.substring(0, index), line.substring(index + 1));

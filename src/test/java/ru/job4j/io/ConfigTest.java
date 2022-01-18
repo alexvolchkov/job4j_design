@@ -24,4 +24,11 @@ public class ConfigTest {
         Config config = new Config(path);
         config.load();
     }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void whenNonValue() {
+        String path = "./data/non_value.properties";
+        Config config = new Config(path);
+        config.load();
+    }
 }
