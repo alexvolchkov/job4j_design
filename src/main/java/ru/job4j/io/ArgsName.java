@@ -7,18 +7,28 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        String rsl = values.get(key);
+        if (rsl == null) {
+            throw new IllegalArgumentException(String.format(
+                    "Введен не верный ключ %s. Список ключей %s", key, values.keySet()));
+        }
         return values.get(key);
     }
 
     private void parse(String[] args) {
         for (String arg : args) {
             int index = arg.indexOf("=");
-            if (!arg.startsWith("-") || index <= 1 || index == arg.length() - 1) {
-                throw new IllegalArgumentException();
-            }
+            validation(arg, index);
             String key = arg.substring(1, index);
             String value = arg.substring(index + 1);
             values.put(key, value);
+        }
+    }
+
+    private void validation(String arg, int index) {
+        if (!arg.startsWith("-") || index <= 1 || index == arg.length() - 1) {
+            throw new IllegalArgumentException(
+                    "Не верно указан параметр. Формат параметра  -key=value");
         }
     }
 
