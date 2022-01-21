@@ -41,6 +41,13 @@ public class ArgsName {
         return names;
     }
 
+    public static void validationArgument(String[] args, int amount) {
+        if (args.length != amount) {
+            throw new IllegalArgumentException(String.format(
+                    "Неверное количество параметров. Должно быть %s. Передано %s", amount, args.length));
+        }
+    }
+
     public static void main(String[] args) {
         ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));

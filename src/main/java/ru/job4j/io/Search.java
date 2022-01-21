@@ -9,9 +9,9 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        validationAmountArgument(args);
+        validation(args);
         Path start = Paths.get(args[0]);
-        validationExistFolder(start);
+        validation(start);
         search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
 
@@ -21,7 +21,7 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static void validationAmountArgument(String[] args) {
+    public static void validation(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException("Root folder and filter are null. "
                     + "Usage java -jar dir.jar ROOT_FOLDER FILTER.");
@@ -31,7 +31,7 @@ public class Search {
         }
     }
 
-    public static void validationExistFolder(Path folder) {
+    public static void validation(Path folder) {
         if (!Files.exists(folder)) {
             throw new IllegalArgumentException(String.format("Not exist %s", folder.toAbsolutePath()));
         } else if (!Files.isDirectory(folder)) {

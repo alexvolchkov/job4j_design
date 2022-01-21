@@ -45,18 +45,17 @@ public class Zip {
     }
 
     public static void packing(String[] args) throws IOException {
+        ArgsName.validationArgument(args, 3);
         ArgsName values =  ArgsName.of(args);
-        String directory = values.get("d");
+        Path directory = Paths.get(values.get("d"));
+        Search.validation(directory);
         String exclude = values.get("e");
-        String output = values.get("o");
-        if (directory == null || exclude == null || output == null) {
-            throw new IllegalArgumentException();
-        }
+        Path output = Paths.get(values.get("o"));
         List<Path> sources = Search.search(
-                Paths.get(directory),
+                directory,
                 p -> !p.toFile().getName().endsWith(exclude)
         );
-        packFiles(sources, Paths.get(output));
+        packFiles(sources, output);
     }
 
     public static void main(String[] args) throws IOException {
