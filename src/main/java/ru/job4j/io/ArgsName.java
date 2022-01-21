@@ -12,7 +12,7 @@ public class ArgsName {
             throw new IllegalArgumentException(String.format(
                     "Введен не верный ключ %s. Список ключей %s", key, values.keySet()));
         }
-        return values.get(key);
+        return rsl;
     }
 
     private void parse(String[] args) {
