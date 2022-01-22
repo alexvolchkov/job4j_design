@@ -15,7 +15,7 @@ public class EchoServer {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
-                        if ("GET /?msg=Bye HTTP/1.1".equals(str)) {
+                        if (str.contains("?msg=") && "Bye".equals(parseString(str))) {
                             server.close();
                         }
                     }
@@ -23,5 +23,17 @@ public class EchoServer {
                 }
             }
         }
+    }
+
+    private static String parseString(String string) {
+        String rsl = null;
+        String[] array = string.split(" |/");
+        for (String s : array) {
+            if (s.startsWith("?msg=")) {
+                rsl = s.substring(5);
+                break;
+            }
+        }
+        return rsl;
     }
 }
