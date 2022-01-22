@@ -49,7 +49,10 @@ public class Zip {
         ArgsName values =  ArgsName.of(args);
         Path directory = Paths.get(values.get("d"));
         Search.validation(directory);
-        String exclude = values.get("e");
+        StringBuilder tempExclude = new StringBuilder(values.get("e"));
+        String exclude = tempExclude.toString().startsWith(".")
+                ? tempExclude.toString()
+                : tempExclude.insert(0, ".").toString();
         Path output = Paths.get(values.get("o"));
         List<Path> sources = Search.search(
                 directory,
