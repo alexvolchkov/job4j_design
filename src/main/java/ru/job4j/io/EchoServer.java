@@ -16,32 +16,17 @@ public class EchoServer {
                     String command = "null";
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
-                        if (str.contains("?msg=")) {
-                            command = parseString(str);
+                        if (str.contains("?msg=Hello")) {
+                            out.write("Hello, dear friend.".getBytes());
+                        } else if (str.contains("?msg=Exit")) {
+                            server.close();
+                        } else if (str.contains("?msg=")) {
+                            out.write("http://localhost:9000/?msg=What".getBytes());
                         }
-                    }
-                    if ("Hello".equals(command)) {
-                        out.write("Hello, dear friend.".getBytes());
-                    } else if ("Exit".equals(command)) {
-                        server.close();
-                    } else {
-                        out.write(String.format("http://localhost:9000/?msg=%s", command).getBytes());
                     }
                     out.flush();
                 }
             }
         }
-    }
-
-    private static String parseString(String string) {
-        String rsl = null;
-        String[] array = string.split(" |/");
-        for (String s : array) {
-            if (s.startsWith("?msg=")) {
-                rsl = s.substring(5);
-                break;
-            }
-        }
-        return rsl;
     }
 }
