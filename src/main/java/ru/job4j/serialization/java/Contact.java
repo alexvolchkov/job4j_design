@@ -2,11 +2,21 @@ package ru.job4j.serialization.java;
 
 import java.io.*;
 import java.nio.file.Files;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement(name = "contact")
 public class Contact implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final int zipCode;
-    private final String phone;
+
+    @XmlAttribute
+    private int zipCode;
+
+    @XmlAttribute
+    private String phone;
+
+    public Contact() {
+    }
 
     public Contact(int zipCode, String phone) {
         this.zipCode = zipCode;
@@ -29,7 +39,7 @@ public class Contact implements Serializable {
                + '}';
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
         final Contact contact = new Contact(123456, "+7 (111) 111-11-11");
         File tempFile = Files.createTempFile(null, null).toFile();
         try (FileOutputStream fos = new FileOutputStream(tempFile);
