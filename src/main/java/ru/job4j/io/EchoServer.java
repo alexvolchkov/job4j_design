@@ -29,8 +29,6 @@ public class EchoServer {
                         }
                     }
                     out.flush();
-                } catch (IOException e) {
-                    LOG.error("Exception in log example", e);
                 }
             }
         } catch (IOException e) {
