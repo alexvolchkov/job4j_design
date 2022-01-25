@@ -38,6 +38,30 @@ public class Employee {
         this.department = department;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isSex() {
+        return sex;
+    }
+
+    public String[] getChildren() {
+        return children;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
     @Override
     public String toString() {
         return "Employee{"
