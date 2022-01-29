@@ -41,12 +41,12 @@ create table item(
 create table comments(
     id serial primary key,
     description varchar(999),
-    role_id int references role(id)
+    item_id int references item(id)
 );
 
 create table attachs(
     id serial primary key,
     name varchar(255),
-    role_id int references role(id)
+    item_id int references item(id)
 );
 
