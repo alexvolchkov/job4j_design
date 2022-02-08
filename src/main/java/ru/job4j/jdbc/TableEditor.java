@@ -18,11 +18,11 @@ public class TableEditor implements AutoCloseable {
     }
 
     private void initConnection() throws ClassNotFoundException, SQLException {
-        Class.forName(properties.getProperty("nameClass.idea_db"));
+        Class.forName(properties.getProperty("jdbc.driver"));
         connection = DriverManager.getConnection(
-                properties.getProperty("url.idea_db"),
-                properties.getProperty("login.idea_db"),
-                properties.getProperty("password.idea_db")
+                properties.getProperty("jdbc.url"),
+                properties.getProperty("jdbc.username"),
+                properties.getProperty("jdbc.password")
         );
     }
 
