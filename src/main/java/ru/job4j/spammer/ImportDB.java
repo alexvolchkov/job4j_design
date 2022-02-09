@@ -24,31 +24,14 @@ public class ImportDB {
             String line;
             while ((line = rd.readLine()) != null) {
                 String[] array = line.split(";");
-                if (legalArgument(array)) {
-                    users.add(new User(array[0], array[1]));
+                if (array.length != 2 || array[0].isEmpty() || array[1].isEmpty()) {
+                    throw new IllegalArgumentException(
+                            String.format("Не верное значение параметров %s", Arrays.toString(array)));
                 }
+                users.add(new User(array[0], array[1]));
             }
         }
         return users;
-    }
-
-    private boolean legalArgument(String[] array) {
-        boolean rsl = true;
-        if (array.length == 2) {
-            for (String s : array) {
-                if (s.trim().length() == 0) {
-                    rsl = false;
-                    break;
-                }
-            }
-        } else {
-            rsl = false;
-        }
-        if (!rsl) {
-            throw new IllegalArgumentException(
-                    String.format("Не верное значение параметров %s", Arrays.toString(array)));
-        }
-        return rsl;
     }
 
     public void save(List<User> users) throws ClassNotFoundException, SQLException {
