@@ -26,52 +26,40 @@ public class TableEditor implements AutoCloseable {
         );
     }
 
-    public void createTable(String tableName) {
+    private void execute(String sql) {
         try (Statement statement = connection.createStatement()) {
-            String sql = String.format("create table if not exists %s();", tableName);
             statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void createTable(String tableName) {
+        String sql = String.format("create table if not exists %s();", tableName);
+        execute(sql);
     }
 
     public void dropTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("drop table if exists %s;", tableName);
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sql = String.format("drop table if exists %s;", tableName);
+        execute(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table if exists %s add column if not exists %s %s;",
-                    tableName, columnName, type);
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sql = String.format("alter table if exists %s add column if not exists %s %s;",
+                tableName, columnName, type);
+        execute(sql);
     }
 
     public void dropColumn(String tableName, String columnName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table if exists %s drop column if exists %s;",
-                    tableName, columnName);
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sql = String.format("alter table if exists %s drop column if exists %s;",
+                tableName, columnName);
+        execute(sql);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("alter table if exists %s rename column %s to %s;",
-                    tableName, columnName, newColumnName);
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sql = String.format("alter table if exists %s rename column %s to %s;",
+                tableName, columnName, newColumnName);
+        execute(sql);
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
@@ -109,15 +97,16 @@ public class TableEditor implements AutoCloseable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        TableEditor tableEditor = new TableEditor(properties);
-        tableEditor.createTable("demo_table");
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
-        tableEditor.addColumn("demo_table", "test_column", "varchar(20)");
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
-        tableEditor.renameColumn("demo_table", "test_column", "new_test_column");
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
-        tableEditor.dropColumn("demo_table", "new_test_column");
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
-        tableEditor.dropTable("demo_table");
+        try (TableEditor tableEditor = new TableEditor(properties)) {
+            tableEditor.createTable("demo_table");
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
+            tableEditor.addColumn("demo_table", "test_column", "varchar(20)");
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
+            tableEditor.renameColumn("demo_table", "test_column", "new_test_column");
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
+            tableEditor.dropColumn("demo_table", "new_test_column");
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, "demo_table"));
+            tableEditor.dropTable("demo_table");
+        }
     }
 }
