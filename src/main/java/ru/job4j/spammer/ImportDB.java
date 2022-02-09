@@ -5,6 +5,7 @@ import ru.job4j.jdbc.TableEditor;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -20,11 +21,34 @@ public class ImportDB {
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            rd.lines()
-                    .map(el -> el.split(";"))
-                    .forEach(el -> users.add(new User(el[0], el[1])));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                String[] array = line.split(";");
+                if (legalArgument(array)) {
+                    users.add(new User(array[0], array[1]));
+                }
+            }
         }
         return users;
+    }
+
+    private boolean legalArgument(String[] array) {
+        boolean rsl = true;
+        if (array.length == 2) {
+            for (String s : array) {
+                if (s.trim().length() == 0) {
+                    rsl = false;
+                    break;
+                }
+            }
+        } else {
+            rsl = false;
+        }
+        if (!rsl) {
+            throw new IllegalArgumentException(
+                    String.format("Не верное значение параметров %s", Arrays.toString(array)));
+        }
+        return rsl;
     }
 
     public void save(List<User> users) throws ClassNotFoundException, SQLException {
