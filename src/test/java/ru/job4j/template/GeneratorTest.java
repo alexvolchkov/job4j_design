@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class GeneratorTest {
 
-    Generator generator = new SimpleGenerator();
+   private Generator generator = new SimpleGenerator();
 
     @Ignore
     @Test
