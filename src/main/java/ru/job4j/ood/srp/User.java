@@ -13,5 +13,4 @@ public class User {
         /* Загрузка из базы данных */
         return null;
     }
-
 }
