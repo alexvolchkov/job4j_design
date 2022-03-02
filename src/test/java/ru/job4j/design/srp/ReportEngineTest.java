@@ -1,8 +1,13 @@
 package ru.job4j.design.srp;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Formatter;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -88,6 +93,52 @@ public class ReportEngineTest {
                 .append(worker1.getName()).append(";")
                 .append(worker1.getSalary()).append(";")
                 .append(ls);
+        assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenJSONGenerated() {
+        Gson gson = new GsonBuilder().create();
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportEngineJSON(store);
+        StringBuilder expect = new StringBuilder()
+                .append("{")
+                .append("\"name\":\"")
+                .append(worker.getName())
+                .append("\",\"hired\":")
+                .append(gson.toJson(now))
+                .append(",\"fired\":")
+                .append(gson.toJson(now))
+                .append(",\"salary\":")
+                .append(worker.getSalary())
+                .append("}")
+                .append(System.lineSeparator());
+        assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenXMLGenerated() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportEngineXML(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
+                .append("<employee>\n    <fired>")
+                .append(sdf.format(worker.getFired().getTime()))
+                .append("</fired>\n    <hired>")
+                .append(sdf.format(worker.getHired().getTime()))
+
+                .append("</hired>\n    <name>")
+                .append(worker.getName())
+                .append("</name>\n    <salary>")
+                .append(worker.getSalary())
+                .append("</salary>\n</employee>\n");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 }
