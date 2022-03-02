@@ -40,7 +40,6 @@ public class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2020, 10, 10, 23, 00);
         Ticket ticket = cinema.buy(account, -1, 1, date);
-        assertThat(ticket, is(new Ticket3D()));
     }
 
     @Ignore
@@ -51,7 +50,6 @@ public class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2020, 15, 10, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
-        assertThat(ticket, is(new Ticket3D()));
     }
 
     @Ignore
@@ -62,6 +60,6 @@ public class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2020, 10, 10, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
-        assertThat(ticket, is(new Ticket3D()));
+        Ticket ticket2 = cinema.buy(account, 1, 1, date);
     }
 }
