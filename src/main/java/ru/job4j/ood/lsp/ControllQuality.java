@@ -7,7 +7,8 @@ public class ControllQuality {
     public void distribution(List<Food> foods, List<Storeable> storages) {
         for (Food food : foods) {
             for (Storeable storage : storages) {
-                if (storage.add(food)) {
+                if (storage.accept(food)) {
+                    storage.add(food);
                     break;
                 }
             }

@@ -10,18 +10,22 @@ public class Trash implements Storeable {
     private List<Food> foods = new ArrayList<>();
 
     @Override
-    public boolean add(Food food) {
-        boolean rsl = false;
-        double percentToExpiryDay = Utilities.percentToExpiryDay(food, LocalDate.now());
-        if (percentToExpiryDay <= 0) {
-            foods.add(food);
-            rsl = true;
-        }
-        return rsl;
+    public void add(Food food) {
+        foods.add(food);
     }
 
     @Override
     public List<Food> find(Predicate<Food> filter) {
         return foods.stream().filter(filter).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        boolean rsl = false;
+        double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
+        if (percentToExpiryDay <= 0) {
+            rsl = true;
+        }
+        return rsl;
     }
 }

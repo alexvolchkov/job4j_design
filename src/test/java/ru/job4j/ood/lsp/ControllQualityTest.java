@@ -4,7 +4,6 @@ import org.junit.Test;
 
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,8 @@ public class ControllQualityTest {
         List<Storeable> storages = List.of(warehouse, shop, trash);
         List<Food> foods = new ArrayList<>();
         foods.add(new Milk("milk",
-                LocalDate.of(2022, Month.MARCH, 3),
-                LocalDate.of(2022, Month.MARCH, 13),
+                LocalDate.now().minusDays(2),
+                LocalDate.now().plusDays(10),
                 50,
                 0.20));
         new ControllQuality().distribution(foods, storages);
@@ -39,8 +38,8 @@ public class ControllQualityTest {
         List<Storeable> storages = List.of(warehouse, shop, trash);
         List<Food> foods = new ArrayList<>();
         foods.add(new Milk("milk",
-                LocalDate.of(2022, Month.FEBRUARY, 20),
-                LocalDate.of(2022, Month.MARCH, 10),
+                LocalDate.now().minusDays(5),
+                LocalDate.now().plusDays(5),
                 50,
                 0.20));
         new ControllQuality().distribution(foods, storages);
@@ -58,8 +57,8 @@ public class ControllQualityTest {
         List<Storeable> storages = List.of(warehouse, shop, trash);
         List<Food> foods = new ArrayList<>();
         foods.add(new Milk("milk",
-                LocalDate.of(2022, Month.FEBRUARY, 20),
-                LocalDate.of(2022, Month.MARCH, 6),
+                LocalDate.now().minusDays(7),
+                LocalDate.now().plusDays(2),
                 50,
                 0.20));
         new ControllQuality().distribution(foods, storages);
@@ -77,8 +76,8 @@ public class ControllQualityTest {
         List<Storeable> storages = List.of(warehouse, shop, trash);
         List<Food> foods = new ArrayList<>();
         foods.add(new Milk("milk",
-                LocalDate.of(2022, Month.FEBRUARY, 20),
-                LocalDate.of(2022, Month.MARCH, 3),
+                LocalDate.now().minusDays(10),
+                LocalDate.now().minusDays(2),
                 50,
                 0.20));
         new ControllQuality().distribution(foods, storages);

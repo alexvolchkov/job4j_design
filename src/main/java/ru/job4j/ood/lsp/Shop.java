@@ -10,21 +10,26 @@ public class Shop implements Storeable {
     private List<Food> foods = new ArrayList<>();
 
     @Override
-    public boolean add(Food food) {
-        boolean rsl = false;
-        double percentToExpiryDay = Utilities.percentToExpiryDay(food, LocalDate.now());
-        if (100 - percentToExpiryDay >= 25 && 100 - percentToExpiryDay < 100) {
-            foods.add(food);
-            rsl = true;
-        }
-        if (rsl && 100 - percentToExpiryDay > 75) {
+    public void add(Food food) {
+        foods.add(food);
+        double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
+        if (100 - percentToExpiryDay > 75) {
             food.setPrice(food.getPrice() - food.getPrice() * food.getDiscount());
         }
-        return rsl;
     }
 
     @Override
     public List<Food> find(Predicate<Food> filter) {
         return foods.stream().filter(filter).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        boolean rsl = false;
+        double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
+        if (100 - percentToExpiryDay >= 25 && 100 - percentToExpiryDay < 100) {
+            rsl = true;
+        }
+        return rsl;
     }
 }
