@@ -5,9 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Formatter;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -105,7 +103,7 @@ public class ReportEngineTest {
         store.add(worker);
         Report engine = new ReportEngineJSON(store);
         StringBuilder expect = new StringBuilder()
-                .append("{")
+                .append("[{")
                 .append("\"name\":\"")
                 .append(worker.getName())
                 .append("\",\"hired\":")
@@ -114,8 +112,7 @@ public class ReportEngineTest {
                 .append(gson.toJson(now))
                 .append(",\"salary\":")
                 .append(worker.getSalary())
-                .append("}")
-                .append(System.lineSeparator());
+                .append("}]");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
@@ -129,16 +126,16 @@ public class ReportEngineTest {
         Report engine = new ReportEngineXML(store);
         StringBuilder expect = new StringBuilder()
                 .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
-                .append("<employee>\n    <fired>")
+                .append("<employees>\n    <employees>\n        <fired>")
                 .append(sdf.format(worker.getFired().getTime()))
-                .append("</fired>\n    <hired>")
+                .append("</fired>\n        <hired>")
                 .append(sdf.format(worker.getHired().getTime()))
 
-                .append("</hired>\n    <name>")
+                .append("</hired>\n        <name>")
                 .append(worker.getName())
-                .append("</name>\n    <salary>")
+                .append("</name>\n        <salary>")
                 .append(worker.getSalary())
-                .append("</salary>\n</employee>\n");
+                .append("</salary>\n    </employees>\n</employees>\n");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 }

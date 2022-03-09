@@ -3,6 +3,7 @@ package ru.job4j.design.srp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class ReportEngineJSON implements Report {
@@ -14,12 +15,8 @@ public class ReportEngineJSON implements Report {
 
     @Override
     public String generate(Predicate<Employee> filter) {
-        Gson gson = new GsonBuilder().create();
-        StringBuilder text = new StringBuilder();
-        for (Employee employee : store.findBy(filter)) {
-            text.append(gson.toJson(employee))
-                    .append(System.lineSeparator());
-        }
-        return text.toString();
+        List<Employee> employees = store.findBy(filter);
+        var lib = new GsonBuilder().create();
+        return  lib.toJson(employees);
     }
 }
