@@ -11,10 +11,12 @@ public class Shop implements Storeable {
 
     @Override
     public void add(Food food) {
-        foods.add(food);
-        double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
-        if (100 - percentToExpiryDay > 75) {
+        boolean accept = accept(food);
+        if (accept && percentToExpiryDay(food, LocalDate.now()) < 25) {
+            foods.add(food);
             food.setPrice(food.getPrice() - food.getPrice() * food.getDiscount());
+        } else if (accept) {
+            foods.add(food);
         }
     }
 
@@ -25,11 +27,7 @@ public class Shop implements Storeable {
 
     @Override
     public boolean accept(Food food) {
-        boolean rsl = false;
         double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
-        if (100 - percentToExpiryDay >= 25 && 100 - percentToExpiryDay < 100) {
-            rsl = true;
-        }
-        return rsl;
+        return percentToExpiryDay <= 75 && percentToExpiryDay > 0;
     }
 }

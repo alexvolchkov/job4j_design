@@ -11,7 +11,9 @@ public class Trash implements Storeable {
 
     @Override
     public void add(Food food) {
-        foods.add(food);
+        if (accept(food)) {
+           foods.add(food);
+        }
     }
 
     @Override
@@ -21,11 +23,6 @@ public class Trash implements Storeable {
 
     @Override
     public boolean accept(Food food) {
-        boolean rsl = false;
-        double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
-        if (percentToExpiryDay <= 0) {
-            rsl = true;
-        }
-        return rsl;
+        return percentToExpiryDay(food, LocalDate.now()) <= 0;
     }
 }
