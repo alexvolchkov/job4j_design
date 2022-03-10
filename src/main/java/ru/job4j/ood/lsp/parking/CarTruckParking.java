@@ -1,33 +1,44 @@
 package ru.job4j.ood.lsp.parking;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CarTruckParking implements Parkingable {
-    private CarParking carParking;
-    private TruckParking truckParking;
+    private int carSpace;
+    private int truckSpace;
+    private int freeCarSpace;
+    private int freeTruckSpace;
+    private Map<Vehicle, Integer> parking = new HashMap<>();
 
     public CarTruckParking(int carSpace, int truckSpace) {
-        this.carParking = new CarParking(carSpace);
-        this.truckParking = new TruckParking(truckSpace);
+        this.carSpace = carSpace;
+        this.freeCarSpace = carSpace;
+        this.truckSpace = truckSpace;
+        this.freeTruckSpace = truckSpace;
     }
 
-    public CarParking getCarParking() {
-        return carParking;
+    public int getCarSpace() {
+        return carSpace;
     }
 
-    public TruckParking getTruckParking() {
-        return truckParking;
+    public int getTruckSpace() {
+        return truckSpace;
+    }
+
+    public int getFreeCarSpace() {
+        return freeCarSpace;
+    }
+
+    public int getFreeTruckSpace() {
+        return freeTruckSpace;
+    }
+
+    public Map<Vehicle, Integer> getParking() {
+        return parking;
     }
 
     @Override
     public boolean park(Vehicle vehicle) {
-        boolean rsl = false;
-        if (vehicle.getSize() == 1) {
-            rsl = carParking.park(vehicle);
-        } else if (vehicle.getSize() > 1) {
-            rsl = truckParking.park(vehicle);
-            if (!rsl) {
-                rsl = carParking.park(vehicle);
-            }
-        }
-        return rsl;
+        return false;
     }
 }
