@@ -39,6 +39,16 @@ public class CarTruckParking implements Parkingable {
 
     @Override
     public boolean park(Vehicle vehicle) {
-        return false;
+        boolean rsl = false;
+        if (vehicle.getSize() > 1 && freeTruckSpace > 0) {
+            parking.put(vehicle, 1);
+            freeTruckSpace--;
+            rsl = true;
+        } else if (freeCarSpace >= vehicle.getSize()) {
+            parking.put(vehicle, vehicle.getSize());
+            freeCarSpace -= vehicle.getSize();
+            rsl = true;
+        }
+        return rsl;
     }
 }

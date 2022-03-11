@@ -1,6 +1,5 @@
 package ru.job4j.ood.lsp.parking;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -9,7 +8,6 @@ import static org.junit.Assert.*;
 public class ParkingableTest {
 
     @Test
-    @Ignore
     public void whenParkingCar() {
         CarTruckParking carTruckParking = new CarTruckParking(4, 3);
         assertTrue(carTruckParking.park(new Car()));
@@ -18,7 +16,6 @@ public class ParkingableTest {
     }
 
     @Test
-    @Ignore
     public void whenNotParkingCar() {
         CarTruckParking carTruckParking = new CarTruckParking(1, 3);
         carTruckParking.park(new Car());
@@ -26,7 +23,6 @@ public class ParkingableTest {
     }
 
     @Test
-    @Ignore
     public void whenParkingTruck() {
         CarTruckParking carTruckParking = new CarTruckParking(4, 3);
         assertTrue(carTruckParking.park(new Truck(2)));
@@ -35,7 +31,6 @@ public class ParkingableTest {
     }
 
     @Test
-    @Ignore
     public void whenParkingTruckOnCarSpace() {
         CarTruckParking carTruckParking = new CarTruckParking(4, 1);
         carTruckParking.park(new Truck(2));
@@ -45,7 +40,6 @@ public class ParkingableTest {
     }
 
     @Test
-    @Ignore
     public void whenNotParkingTruck() {
         CarTruckParking carTruckParking = new CarTruckParking(1, 1);
         carTruckParking.park(new Truck(2));
