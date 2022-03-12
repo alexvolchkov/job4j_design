@@ -11,6 +11,10 @@ public interface Storeable {
 
     List<Food> find(Predicate<Food> filter);
 
+    List<Food> findAll();
+
+    void clear();
+
     boolean accept(Food food);
 
     default double percentToExpiryDay(Food food, LocalDate pointDay) {

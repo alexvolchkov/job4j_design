@@ -22,6 +22,16 @@ public class Warehouse implements Storeable {
     }
 
     @Override
+    public List<Food> findAll() {
+        return foods;
+    }
+
+    @Override
+    public void clear() {
+        foods.clear();
+    }
+
+    @Override
     public boolean accept(Food food) {
         return percentToExpiryDay(food, LocalDate.now()) > 75;
     }

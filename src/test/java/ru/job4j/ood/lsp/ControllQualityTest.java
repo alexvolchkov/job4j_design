@@ -85,4 +85,64 @@ public class ControllQualityTest {
         assertThat(shop.find(el -> true).size(), is(0));
         assertThat(trash.find(el -> true).size(), is(1));
     }
+
+    @Test
+    public void whenResortWarehouse() {
+        Warehouse warehouse = new Warehouse();
+        Shop shop = new Shop();
+        Trash trash = new Trash();
+        List<Storeable> storages = List.of(warehouse, shop, trash);
+        List<Food> foods = new ArrayList<>();
+        Food milk = new Milk("milk",
+                LocalDate.now().minusDays(3),
+                LocalDate.now().minusDays(1),
+                50,
+                0.20);
+        trash.add(milk);
+        milk.setExpiryDate(LocalDate.now().plusDays(10));
+        new ControllQuality().resort(storages);
+        assertThat(warehouse.find(el -> true).size(), is(1));
+        assertThat(shop.find(el -> true).size(), is(0));
+        assertThat(trash.find(el -> true).size(), is(0));
+    }
+
+    @Test
+    public void whenResortShop() {
+        Warehouse warehouse = new Warehouse();
+        Shop shop = new Shop();
+        Trash trash = new Trash();
+        List<Storeable> storages = List.of(warehouse, shop, trash);
+        List<Food> foods = new ArrayList<>();
+        Food milk = new Milk("milk",
+                LocalDate.now().minusDays(3),
+                LocalDate.now().plusDays(20),
+                50,
+                0.20);
+        warehouse.add(milk);
+        milk.setExpiryDate(LocalDate.now().plusDays(1));
+        new ControllQuality().resort(storages);
+        assertThat(warehouse.find(el -> true).size(), is(0));
+        assertThat(shop.find(el -> true).size(), is(1));
+        assertThat(trash.find(el -> true).size(), is(0));
+    }
+
+    @Test
+    public void whenResortTrash() {
+        Warehouse warehouse = new Warehouse();
+        Shop shop = new Shop();
+        Trash trash = new Trash();
+        List<Storeable> storages = List.of(warehouse, shop, trash);
+        List<Food> foods = new ArrayList<>();
+        Food milk = new Milk("milk",
+                LocalDate.now().minusDays(3),
+                LocalDate.now().plusDays(20),
+                50,
+                0.20);
+        warehouse.add(milk);
+        milk.setExpiryDate(LocalDate.now().minusDays(1));
+        new ControllQuality().resort(storages);
+        assertThat(warehouse.find(el -> true).size(), is(0));
+        assertThat(shop.find(el -> true).size(), is(0));
+        assertThat(trash.find(el -> true).size(), is(1));
+    }
 }

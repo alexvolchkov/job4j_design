@@ -26,6 +26,16 @@ public class Shop implements Storeable {
     }
 
     @Override
+    public List<Food> findAll() {
+        return foods;
+    }
+
+    @Override
+    public void clear() {
+        foods.clear();
+    }
+
+    @Override
     public boolean accept(Food food) {
         double percentToExpiryDay = percentToExpiryDay(food, LocalDate.now());
         return percentToExpiryDay <= 75 && percentToExpiryDay > 0;
