@@ -23,7 +23,7 @@ public class Trash implements Storeable {
 
     @Override
     public List<Food> findAll() {
-        return foods;
+        return new ArrayList<>(foods);
     }
 
     @Override
