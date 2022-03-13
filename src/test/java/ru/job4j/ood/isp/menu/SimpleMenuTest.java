@@ -50,10 +50,10 @@ public class SimpleMenuTest {
         assertThat(menu.select("Купить продукты").get().getName(), is("Купить продукты"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void whenNotFindParent() {
         Menu menu = new SimpleMenu();
-        menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
+        assertFalse(menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION));
     }
 
     @Test

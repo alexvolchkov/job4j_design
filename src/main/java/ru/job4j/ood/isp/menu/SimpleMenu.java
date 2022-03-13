@@ -12,10 +12,10 @@ public class SimpleMenu implements Menu {
             rsl = rootElements.add(new SimpleMenuItem(childName, actionDelegate));
         } else {
             Optional<ItemInfo> optionalParent = findItem(parentName);
-            if (optionalParent.isEmpty()) {
-               throw new IllegalArgumentException(String.format("С именем %s нет пункта меню", parentName));
+            if (optionalParent.isPresent()) {
+                optionalParent.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
+                rsl = true;
             }
-            rsl = optionalParent.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
         }
         return rsl;
     }
@@ -24,11 +24,7 @@ public class SimpleMenu implements Menu {
     public Optional<MenuItemInfo> select(String itemName) {
         Optional<MenuItemInfo> rsl = Optional.empty();
         Optional<ItemInfo> optionalItemInfo = findItem(itemName);
-        if (optionalItemInfo.isPresent()) {
-            ItemInfo itemInfo = optionalItemInfo.get();
-            rsl = Optional.of(new MenuItemInfo(itemInfo.menuItem, itemInfo.number));
-        }
-        return rsl;
+       return findItem(itemName).map(el -> new MenuItemInfo(el.menuItem, el.number));
     }
 
     @Override
@@ -56,6 +52,7 @@ public class SimpleMenu implements Menu {
             ItemInfo currentItemInfo = dfsIterator.next();
             if (Objects.equals(name, currentItemInfo.menuItem.getName())) {
                 rsl = Optional.of(currentItemInfo);
+                break;
             }
         }
         return rsl;
