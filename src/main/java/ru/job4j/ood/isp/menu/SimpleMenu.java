@@ -12,7 +12,7 @@ public class SimpleMenu implements Menu {
             rsl = rootElements.add(new SimpleMenuItem(childName, actionDelegate));
         } else {
             Optional<ItemInfo> optionalParent = findItem(parentName);
-            if (optionalParent.isPresent()) {
+            if (optionalParent.isPresent() && findItem(childName).isEmpty()) {
                 optionalParent.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
                 rsl = true;
             }
@@ -22,8 +22,6 @@ public class SimpleMenu implements Menu {
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<MenuItemInfo> rsl = Optional.empty();
-        Optional<ItemInfo> optionalItemInfo = findItem(itemName);
        return findItem(itemName).map(el -> new MenuItemInfo(el.menuItem, el.number));
     }
 
