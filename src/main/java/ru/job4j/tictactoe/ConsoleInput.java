@@ -7,11 +7,12 @@ public class ConsoleInput implements Input {
 
     @Override
     public String askStr(String question) {
-        return null;
+        System.out.println(question);
+        return scanner.nextLine();
     }
 
     @Override
     public int askInt(String question) {
-        return 0;
+        return Integer.parseInt(askStr(question));
     }
 }

@@ -8,83 +8,85 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     @Test
-    @Ignore
     public void whenFree() {
         AField field = new Field();
-        assertTrue(field.free(1, 1));
+        assertTrue(field.free(Cell.A1));
     }
 
     @Test
-    @Ignore
     public void whenNotFree() {
         AField field = new Field();
-        field.setXY(1, 1, 'X');
-        assertFalse(field.free(1, 1));
+        field.setXY(Cell.A1, Sign.X);
+        assertFalse(field.free(Cell.A1));
     }
 
     @Test
-    @Ignore
     public void whenIsWinHorizontal() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(1, 2, 'X');
-        field.setXY(1, 3, 'X');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.A2, Sign.O);
+        field.setXY(Cell.A3, Sign.O);
+        assertTrue(logic.isWin());
     }
 
     @Test
-    @Ignore
     public void whenIsWinVertical() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(2, 1, 'X');
-        field.setXY(3, 1, 'X');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.B1, Sign.O);
+        field.setXY(Cell.C1, Sign.O);
+        assertTrue(logic.isWin());
     }
 
     @Test
-    @Ignore
-    public void whenIsWinDiagonal() {
+    public void whenIsWinDiagonalLeftRight() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(2, 2, 'X');
-        field.setXY(3, 3, 'X');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.B2, Sign.O);
+        field.setXY(Cell.C3, Sign.O);
+        assertTrue(logic.isWin());
     }
 
     @Test
-    @Ignore
+    public void whenIsWinDiagonalRightLeft() {
+        AField field = new Field();
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A3, Sign.O);
+        field.setXY(Cell.B2, Sign.O);
+        field.setXY(Cell.C1, Sign.O);
+        assertTrue(logic.isWin());
+    }
+
+    @Test
     public void whenIsNotWinHorizontal() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(1, 2, 'X');
-        field.setXY(1, 3, 'O');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.A2, Sign.X);
+        field.setXY(Cell.A3, Sign.O);
+        assertFalse(logic.isWin());
     }
 
     @Test
-    @Ignore
     public void whenIsNotWinVertical() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(2, 1, 'X');
-        field.setXY(3, 1, 'O');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.B1, Sign.X);
+        field.setXY(Cell.C1, Sign.O);
+        assertFalse(logic.isWin());
     }
 
     @Test
-    @Ignore
     public void whenIsNotWinDiagonal() {
         AField field = new Field();
-        Logic logic = new Logic();
-        field.setXY(1, 1, 'X');
-        field.setXY(2, 2, 'O');
-        field.setXY(3, 3, 'X');
-        assertTrue(logic.isWin(field));
+        Logic logic = new Logic(field);
+        field.setXY(Cell.A1, Sign.O);
+        field.setXY(Cell.B2, Sign.X);
+        field.setXY(Cell.C3, Sign.O);
+        assertFalse(logic.isWin());
     }
 }

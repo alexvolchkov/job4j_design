@@ -1,5 +1,10 @@
 package ru.job4j.tictactoe;
 
 public interface Playable {
-    void action(AField field);
+
+    Cell makeStep();
+
+    Enum getSign();
+
+    String getName();
 }

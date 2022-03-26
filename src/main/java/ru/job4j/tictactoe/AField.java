@@ -1,10 +1,12 @@
 package ru.job4j.tictactoe;
 
-public abstract class AField {
+public interface AField {
 
-    public abstract void init();
+     boolean free(Cell cell);
 
-    public abstract boolean free(int x, int y);
+     boolean setXY(Cell cell, Enum sign);
 
-    public abstract void setXY(int x, int y, char sign);
+     Enum getSign(int x, int y);
+
+     Enum[][] getField();
 }
