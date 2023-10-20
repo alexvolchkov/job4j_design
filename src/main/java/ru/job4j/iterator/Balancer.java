@@ -18,7 +18,7 @@ public class Balancer {
                 nodes.get(i).add(source.next());
                 i = i == nodes.size() - 1 ? 0 : i + 1;
             } else {
-                break;
+                i = nodes.size();
             }
         }
     }
