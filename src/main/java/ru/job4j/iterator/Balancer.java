@@ -13,13 +13,10 @@ public class Balancer {
         if (nodes == null || nodes.isEmpty()) {
             throw new IllegalArgumentException("Nodes %s should not be empty".formatted(nodes));
         }
-        for (int i = 0; i < nodes.size();) {
-            if (source.hasNext()) {
-                nodes.get(i).add(source.next());
-                i = i == nodes.size() - 1 ? 0 : i + 1;
-            } else {
-                i = nodes.size();
-            }
+        int index = 0;
+        while (source.hasNext()) {
+            index = index == nodes.size() ? 0 : index;
+            nodes.get(index++).add(source.next());
         }
     }
 }
